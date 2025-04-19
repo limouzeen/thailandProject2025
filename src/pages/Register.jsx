@@ -12,6 +12,8 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useState } from 'react';
 import { keyframes } from '@emotion/react';
 import registerImage from '../assets/register.jpg';
+import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 const starTwinkle = keyframes`
   0%, 100% { opacity: 0.2; transform: scale(0.8); }
@@ -26,6 +28,8 @@ export default function Register() {
     confirmPassword: '',
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -33,6 +37,7 @@ export default function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Registering:', form);
+    navigate('/login');
   };
 
   return (
@@ -170,7 +175,8 @@ export default function Register() {
 
           <Box mt={3} fontSize="0.875rem">
             <Link
-              href="/login"
+              component={RouterLink}
+              to="/login"
               underline="hover"
               color="inherit"
               sx={{

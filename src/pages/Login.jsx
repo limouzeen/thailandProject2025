@@ -12,6 +12,10 @@
 // import { useState } from 'react';
 // import loginImage from '../assets/login.jpg';
 // import { keyframes } from '@emotion/react';
+// import { useAuth } from '../context/AuthContext';
+// import { useNavigate } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-router-dom';
+
 
 // const starTwinkle = keyframes`
 //   0%, 100% { opacity: 0.2; transform: scale(0.8); }
@@ -20,6 +24,8 @@
 
 // export default function Login() {
 //   const [form, setForm] = useState({ username: '', password: '' });
+//   const { login } = useAuth();
+//   const navigate = useNavigate();
 
 //   const handleChange = (e) => {
 //     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,7 +33,8 @@
 
 //   const handleSubmit = (e) => {
 //     e.preventDefault();
-//     console.log('Logging in:', form);
+//     login(form.username);
+//     navigate('/explore');
 //   };
 
 //   return (
@@ -240,7 +247,7 @@ import { useState } from 'react';
 import loginImage from '../assets/login.jpg';
 import { keyframes } from '@emotion/react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 const starTwinkle = keyframes`
   0%, 100% { opacity: 0.2; transform: scale(0.8); }
@@ -390,7 +397,8 @@ export default function Login() {
 
           <Box mt={3} display="flex" justifyContent="space-between" fontSize="0.875rem">
             <Link
-              href="/register"
+              component={RouterLink}
+              to="/register"
               underline="hover"
               color="inherit"
               sx={{
@@ -398,14 +406,15 @@ export default function Login() {
                 '&:hover': {
                   color: '#00c3ff',
                   textDecorationColor: '#00c3ff',
-                  textDecorationThickness: '2px'
+                  textDecorationThickness: '2px',
                 },
               }}
             >
               Register
             </Link>
             <Link
-              href="#"
+              component={RouterLink}
+              to="/forgot-password"
               underline="hover"
               color="inherit"
               sx={{
@@ -413,7 +422,7 @@ export default function Login() {
                 '&:hover': {
                   color: '#00c3ff',
                   textDecorationColor: '#00c3ff',
-                  textDecorationThickness: '2px'
+                  textDecorationThickness: '2px',
                 },
               }}
             >
