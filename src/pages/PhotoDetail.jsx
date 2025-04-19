@@ -70,8 +70,9 @@ export default function PhotoDetail() {
         src={photo.image}
         alt={photo.title}
         sx={{
-          width: '100%',
-          maxHeight: 500,
+          mt: 4,
+          width: '80%',
+          maxHeight: 400,
           objectFit: 'cover',
           borderRadius: 4,
           mb: 4,
@@ -94,8 +95,8 @@ export default function PhotoDetail() {
               <Stack direction="row" spacing={2} alignItems="center">
                 <Avatar>{c.name[0]}</Avatar>
                 <Box>
-                  <Typography fontWeight="bold">{c.name}</Typography>
-                  <Typography>{c.text}</Typography>
+                  <Typography sx={{color: '#e0f7fa'}} fontWeight="bold">{c.name}</Typography>
+                  <Typography sx={{color: '#d3d3d3'}}>{c.text}</Typography>
                 </Box>
               </Stack>
             </Paper>
