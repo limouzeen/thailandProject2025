@@ -7,8 +7,10 @@ import {
   Paper,
   Avatar,
   Stack,
+  IconButton,
 } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useState } from 'react';
 import { keyframes } from '@emotion/react';
 import registerImage from '../assets/register.jpg';
@@ -26,17 +28,38 @@ export default function Register() {
     email: '',
     password: '',
     confirmPassword: '',
+    userImage: '', // สำหรับเก็บ URL หรือ file
   });
 
+  const [preview, setPreview] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageURL = URL.createObjectURL(file);
+      setPreview(imageURL);
+      setForm({ ...form, userImage: file });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Registering:', form);
+
+    const formData = new FormData();
+    formData.append('username', form.username);
+    formData.append('email', form.email);
+    formData.append('password', form.password);
+    formData.append('confirmPassword', form.confirmPassword);
+    formData.append('userImage', form.userImage);
+
+    console.log('Submitting form data:', formData);
+    // TODO: fetch/axios POST formData ไปยัง backend
+
     navigate('/login');
   };
 
@@ -92,12 +115,50 @@ export default function Register() {
             boxShadow: '0 0 28px rgba(0,255,255,0.08)',
           }}
         >
-          <Stack alignItems="center" mb={3}>
+          <Stack alignItems="center" mb={2}>
             <Avatar sx={{ bgcolor: 'rgba(0,195,255,0.2)', color: '#00eaff', mb: 1 }}>
               <PersonAddIcon />
             </Avatar>
             <Typography variant="h6" fontWeight="bold">
               Register Account
+            </Typography>
+          </Stack>
+
+          {preview && (
+            <Avatar
+              src={preview}
+              alt="Preview"
+              sx={{
+                width: 80,
+                height: 80,
+                mx: 'auto',
+                mb: 2,
+                border: '2px solid #00eaff',
+              }}
+            />
+          )}
+
+          <Stack direction="row" justifyContent="center" mb={2}>
+            <IconButton
+              component="label"
+              sx={{
+                bgcolor: '#00eaff',
+                color: '#001b1f',
+                '&:hover': {
+                  bgcolor: '#00c3ff',
+                },
+              }}
+            >
+              <UploadFileIcon />
+              <input
+                hidden
+                accept="image/*"
+                type="file"
+                onChange={handleImageChange}
+              />
+            </IconButton>
+            <Typography variant="body2" color="gray" alignSelf="center" ml={1}>
+              Upload Profile Image
             </Typography>
           </Stack>
 
@@ -184,7 +245,7 @@ export default function Register() {
                 '&:hover': {
                   color: '#00c3ff',
                   textDecorationColor: '#00c3ff',
-                  textDecorationThickness: '2px'
+                  textDecorationThickness: '2px',
                 },
               }}
             >
