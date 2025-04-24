@@ -64,12 +64,7 @@ export default function Register() {
     try {
       await axios.post(
         'https://thailand-project2025-backend.vercel.app/auth/register',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
+        formData
       );
       alert('Register successful!');
       navigate('/login');
