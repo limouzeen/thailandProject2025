@@ -77,6 +77,16 @@ export default function UploadPhoto() {
       } else {
         console.error("❌ Upload error:", err);
         alert("การอัปโหลดล้มเหลว");
+        console.log("🔥 Full error:", err);
+        console.log("🔥 err.response:", err.response);
+        console.log("🔥 err.response?.status:", err.response?.status);
+        console.log("🔥 err.message:", err.message);
+      
+        if (err.response?.status === 413 || err.message?.includes("413")) {
+          alert("ขนาดไฟล์เกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า");
+        } else {
+          alert("เกิดข้อผิดพลาดในการอัปโหลด");
+        }
       }
     }
   };
