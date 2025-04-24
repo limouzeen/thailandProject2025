@@ -6,8 +6,13 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
+const { user, isLoadingUser } = useAuth();
 
 const API_URL = 'https://thailand-project2025-backend.vercel.app';
+
+
 
 const fadeGlow = keyframes`
   0%, 100% { box-shadow: 0 0 12px rgba(0,196,255,0.05); }
@@ -39,6 +44,18 @@ export default function MyGallery() {
       fetchMyPhotos();
     }
   }, [user]);
+
+  if (isLoadingUser) {
+    return (
+      <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#010a14' }}>
+        <CircularProgress color="info" />
+      </Box>
+    ); 
+  }
+  
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
 
   if (loading) {
     return (
