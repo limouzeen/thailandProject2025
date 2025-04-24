@@ -32,28 +32,26 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    if (form.email.length === 0) {
+    if (form.email.trim() === '') {
       alert('ป้อนชื่อผู้ใช้ (อีเมล์) ด้วย !!!');
       return;
-    } else if (form.password.length === 0) {
+    }
+    if (form.password.trim() === '') {
       alert('ป้อนรหัสผ่าน ด้วย !!!');
       return;
     }
   
-    try {
-      const response = await login(form.email, form.password);
-      if (response.status === 200) {
-        navigate('/my-gallery');
-      } else if (response.status === 404) {
-        alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
-      } else {
-        alert('Login ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
-      }
-    } catch (err) {
-      alert('พบข้อผิดพลาดในการทำงาน');
-      console.error('Login Error:', err);
+    const result = await login(form.email, form.password);
+  
+    if (result.status === 200) {
+      navigate('/my-gallery');
+    } else if (result.status === 401) {
+      alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+    } else {
+      alert('Login ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
     }
   };
+  
   
   
 

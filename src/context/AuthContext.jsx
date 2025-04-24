@@ -10,21 +10,22 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     try {
       const res = await axios.post(`${BASE_URL}/auth/login`, {
-        email,
-        password,
+        userEmail: email,
+        userPassword: password
       });
-
+  
       if (res.status === 200) {
-        setUser(res.data.user);
-        return { status: 200 };
+        setUser(res.data.user); 
+        return { status: 200 }; 
       } else {
         return { status: res.status };
       }
     } catch (err) {
-      console.error('Login Error:', err.response?.data || err.message);
-      return { status: err.response?.status || 500 };
+      console.error("Login Error:", err);
+      return { status: 500 };
     }
   };
+  
 
   const logout = () => setUser(null);
 
