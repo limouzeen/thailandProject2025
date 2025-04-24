@@ -90,10 +90,6 @@ export default function Register() {
         'https://thailand-project2025-backend.vercel.app/auth/register',
         formData,
         {
-          headers: {
-            // ✅ ต้องกำหนดแบบนี้ตอนส่งไฟล์
-            'Content-Type': 'multipart/form-data',
-          },
           withCredentials: true, // ✅ เพื่อให้ cookie/token ทำงานในอนาคต
         }
       ); 
