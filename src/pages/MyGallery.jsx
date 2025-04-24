@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
-const { user, isLoadingUser } = useAuth();
+
 
 const API_URL = 'https://thailand-project2025-backend.vercel.app';
 
@@ -20,10 +20,11 @@ const fadeGlow = keyframes`
 `;
 
 export default function MyGallery() {
-  const { user } = useAuth();
+  const { user, isLoadingUser } = useAuth();
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
 
 
 
