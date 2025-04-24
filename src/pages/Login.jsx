@@ -44,7 +44,7 @@ export default function Login() {
       const response = await login(form.email, form.password);
   
       if (response.status === 200) {
-        navigate('/my-gallery'); // เปลี่ยนให้ไปหน้า MyGallery
+        navigate('/my-gallery');
       } else if (response.status === 404) {
         alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
       } else {
