@@ -281,6 +281,10 @@ export default function MyGallery() {
           backdropFilter: 'blur(6px)',
           WebkitBackdropFilter: 'blur(6px)',
           animation: `${fadeGlow} 6s ease-in-out infinite`,
+          '&:hover': {
+                    transform: 'scale(1.04)',
+                    boxShadow: '0 0 30px rgba(0,255,255,0.2)',
+                  },
         }}
       >
         <CardMedia
