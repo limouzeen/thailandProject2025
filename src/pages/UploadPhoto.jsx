@@ -200,7 +200,7 @@ const starGlow = keyframes`
 `;
 
 export default function UploadPhoto() {
-  const [form, setForm] = useState({ title: '', location: '', place: '', image: null });
+  const [form, setForm] = useState({ title: '', location: '', image: null });
   const [preview, setPreview] = useState(pic);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -226,9 +226,8 @@ export default function UploadPhoto() {
     }
 
     const formData = new FormData();
-    formData.append("travelTitle", form.title);
+    formData.append("travelPlace", form.title); 
     formData.append("travelLocation", form.location);
-    formData.append("travelPlace", form.place);
     formData.append("userId", user.userId);
     formData.append("travelImage", form.image);
 
@@ -327,12 +326,12 @@ export default function UploadPhoto() {
               InputLabelProps={{ sx: { color: '#88a' } }}
             />
             <TextField
-              name="place"
-              label="Place"
+              name="title"
+              label="Tilte"
               variant="filled"
               fullWidth
               onChange={handleChange}
-              value={form.place}
+              value={form.title}
               InputProps={{ sx: { bgcolor: '#111a24', color: 'white' } }}
               InputLabelProps={{ sx: { color: '#88a' } }}
             />
