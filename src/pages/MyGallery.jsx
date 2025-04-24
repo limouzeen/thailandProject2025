@@ -46,11 +46,7 @@ export default function MyGallery() {
   }, [user]);
 
   if (isLoadingUser) {
-    return (
-      <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#010a14' }}>
-        <CircularProgress color="info" />
-      </Box>
-    ); 
+    return null; 
   }
   
   if (!user) {
