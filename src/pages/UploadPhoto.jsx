@@ -87,7 +87,7 @@ export default function UploadPhoto() {
       ) {
         alert("🚫 ไฟล์ภาพของคุณอาจใหญ่เกินขนาดที่กำหนด (สูงสุด 10MB)");
       } else {
-        alert("❌ เกิดข้อผิดพลาดในการอัปโหลด");
+        alert("❌ เกิดข้อผิดพลาดในการอัปโหลดไฟล์ขนาดใหฯญ่เกิน โปรดเลือกน้อยกว่า 10MB");
       }
 
       console.error("Upload error:", err);
