@@ -131,7 +131,6 @@
 //     </Box>
 //   );
 // }
-// ✅ PhotoDetail.jsx (Frontend React)
 import {
   Box, Typography, Avatar, TextField, Button, Stack, Paper, CircularProgress, IconButton
 } from '@mui/material';
@@ -284,3 +283,4 @@ export default function PhotoDetail() {
     </Box>
   );
 }
+
