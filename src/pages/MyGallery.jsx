@@ -263,7 +263,7 @@ export default function MyGallery() {
 
 
 
-{/* 
+ 
 <Grid container spacing={4} justifyContent="center">
   {photos.map((photo) => (
     <Grid item xs={12} sm={6} md={4} key={photo.travelId} sx={{ display: 'flex' }}>
@@ -272,8 +272,8 @@ export default function MyGallery() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          height: '100%',
-          width: '70%',
+          height: '500px',
+          width: '250px',
           borderRadius: 6,
           background: 'rgba(255,255,255,0.03)',
           color: '#f5f7fa',
@@ -341,51 +341,6 @@ export default function MyGallery() {
           >
             Delete
           </Button>
-        </Box>
-      </Card>
-    </Grid>
-  ))}
-</Grid> */}
-
-<Grid container spacing={4} justifyContent="center">
-  {photos.map((photo) => (
-    <Grid item xs={12} sm={6} md={4} key={photo.travelId} sx={{ display: 'flex' }}>
-      <Card
-        sx={{
-          width: '100%',
-          height: 420, // 👈 ความสูงเท่ากันทุกใบ
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          borderRadius: 6,
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.06)',
-          backdropFilter: 'blur(6px)',
-          WebkitBackdropFilter: 'blur(6px)',
-          animation: `${fadeGlow} 6s ease-in-out infinite`,
-        }}
-      >
-        <CardMedia
-          component="img"
-          image={photo.travelImage}
-          alt={photo.travelPlace}
-          sx={{
-            height: 180, // 👈 ความสูงภาพคงที่
-            objectFit: 'cover',
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-          }}
-        />
-        <CardContent sx={{ flexGrow: 1, textAlign: 'left' }}>
-          <Typography variant="h6" fontWeight="bold" sx={{ color: '#e0ffff' }} noWrap>
-            {photo.travelPlace}
-          </Typography>
-          <Typography variant="body2" sx={{ color: '#b0bec5' }} noWrap>
-            {photo.travelLocation}
-          </Typography>
-        </CardContent>
-        <Box px={2} pb={2} display="flex" justifyContent="space-between">
-          {/* ปุ่ม Edit และ Delete เหมือนเดิม */}
         </Box>
       </Card>
     </Grid>
