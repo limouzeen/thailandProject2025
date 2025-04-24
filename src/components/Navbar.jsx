@@ -78,7 +78,7 @@ export default function Navbar() {
             Explore
           </Button>
 
-          {user && user.group === 1 && (
+          {user && (
             <Button
               component={Link}
               to="/my-gallery"
