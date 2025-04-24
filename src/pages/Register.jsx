@@ -87,12 +87,11 @@ export default function Register() {
     try {
       setLoading(true);
       await axios.post(
-        'https://thailand-project2025-backend.vercel.app/auth/register',
-        formData,
-        {
-          withCredentials: true, // ✅ เพื่อให้ cookie/token ทำงานในอนาคต
-        }
-      ); 
+        'https://thailand-project2025-backend.vercel.app/auth/register', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
       alert('✅ Register successful!');
       navigate('/login');
     } catch (err) {
