@@ -6,14 +6,14 @@ import {
   Paper,
   Stack,
   IconButton,
-} from '@mui/material';
-import { useState } from 'react';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import pic from '../assets/pic.png';
-import { keyframes } from '@emotion/react';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+} from "@mui/material";
+import { useState } from "react";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import pic from "../assets/pic.png";
+import { keyframes } from "@emotion/react";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const starGlow = keyframes`
   0% { background-position: 0 0; }
@@ -21,10 +21,11 @@ const starGlow = keyframes`
 `;
 
 export default function UploadPhoto() {
-  const [form, setForm] = useState({ title: '', location: '', image: null });
+  const [form, setForm] = useState({ title: "", location: "", image: null });
   const [preview, setPreview] = useState(pic);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const MAX_FILE_SIZE_MB = 10;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,87 +34,88 @@ export default function UploadPhoto() {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const maxSizeMB = 10;
-      if (file.size > maxSizeMB * 1024 * 1024) {
-        alert(`ขนาดไฟล์เกิน ${maxSizeMB}MB กรุณาเลือกไฟล์ที่เล็กกว่า`);
+      if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+        alert(`🚫 ขนาดไฟล์ใหญ่เกิน ${MAX_FILE_SIZE_MB}MB`);
         return;
       }
-      const imageURL = URL.createObjectURL(file);
+      const previewURL = URL.createObjectURL(file);
+      setPreview(previewURL);
       setForm({ ...form, image: file });
-      setPreview(imageURL);
     }
   };
-  
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
       alert("กรุณาเข้าสู่ระบบก่อนอัปโหลด");
       return;
     }
-  
+
     if (!form.title || !form.location || !form.image) {
       alert("กรุณากรอกข้อมูลให้ครบถ้วนและเลือกไฟล์รูปภาพ");
       return;
     }
-  
+
     const formData = new FormData();
     formData.append("travelPlace", form.title);
     formData.append("travelLocation", form.location);
     formData.append("userId", user.userId);
     formData.append("travelImage", form.image);
-  
+
     try {
-      await axios.post("https://thailand-project2025-backend.vercel.app/travels", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
+      await axios.post(
+        "https://thailand-project2025-backend.vercel.app/travels",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
       alert("อัปโหลดสำเร็จ!");
       navigate("/my-gallery");
     } catch (err) {
-      if (err.response?.status === 413) {
-        alert("ขนาดไฟล์ใหญ่เกินไป กรุณาเลือกไฟล์ที่เล็กกว่า 10MB");
+      const errorMessage = err?.response?.status
+        ? `📡 Server responded with status ${err.response.status}`
+        : err.message;
+
+      if (
+        err?.response?.status === 413 ||
+        err.message.includes("413") ||
+        errorMessage.includes("Payload Too Large") ||
+        errorMessage === "Network Error"
+      ) {
+        alert("🚫 ไฟล์ภาพของคุณอาจใหญ่เกินขนาดที่กำหนด (สูงสุด 10MB)");
       } else {
-        console.error("❌ Upload error:", err);
-        alert("การอัปโหลดล้มเหลว");
-        console.log("🔥 Full error:", err);
-        console.log("🔥 err.response:", err.response);
-        console.log("🔥 err.response?.status:", err.response?.status);
-        console.log("🔥 err.message:", err.message);
-      
-        if (err.response?.status === 413 || err.message?.includes("413")) {
-          alert("ขนาดไฟล์เกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า");
-        } else {
-          alert("เกิดข้อผิดพลาดในการอัปโหลด");
-        }
+        alert("❌ เกิดข้อผิดพลาดในการอัปโหลด");
       }
+
+      console.error("Upload error:", err);
     }
   };
-  
 
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        background: 'linear-gradient(to bottom, #010a14, #081c2f)',
-        color: 'white',
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "linear-gradient(to bottom, #010a14, #081c2f)",
+        color: "white",
         py: 8,
-        position: 'relative',
-        overflow: 'hidden',
-        '&::before': {
+        position: "relative",
+        overflow: "hidden",
+        "&::before": {
           content: '""',
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
-          width: '200%',
-          height: '200%',
+          width: "200%",
+          height: "200%",
           backgroundImage:
-            'radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.15) 1px, transparent 0),\n             radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.1) 1px, transparent 0),\n             radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.1) 1px, transparent 0)',
-          backgroundSize: '200px 200px',
+            "radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.15) 1px, transparent 0),\n             radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.1) 1px, transparent 0),\n             radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.1) 1px, transparent 0)",
+          backgroundSize: "200px 200px",
           animation: `${starGlow} 20s linear infinite`,
           zIndex: 0,
         },
@@ -124,14 +126,20 @@ export default function UploadPhoto() {
         sx={{
           zIndex: 1,
           p: 4,
-          bgcolor: 'rgba(5, 20, 35, 0.9)',
+          bgcolor: "rgba(5, 20, 35, 0.9)",
           borderRadius: 4,
-          border: '1px solid rgba(255,255,255,0.08)',
-          width: '100%',
+          border: "1px solid rgba(255,255,255,0.08)",
+          width: "100%",
           maxWidth: 520,
         }}
       >
-        <Typography variant="h5" fontWeight="bold" mb={3} textAlign="center" sx={{ color: '#f5f7fa' }}>
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          mb={3}
+          textAlign="center"
+          sx={{ color: "#f5f7fa" }}
+        >
           Upload Your Travel Moment
         </Typography>
 
@@ -140,13 +148,13 @@ export default function UploadPhoto() {
           src={preview}
           alt="preview"
           sx={{
-            width: '100%',
-            height: 'auto',
+            width: "100%",
+            height: "auto",
             maxHeight: 280,
-            objectFit: 'cover',
+            objectFit: "cover",
             borderRadius: 3,
             mb: 3,
-            boxShadow: '0 0 12px rgba(0,255,255,0.15)',
+            boxShadow: "0 0 12px rgba(0,255,255,0.15)",
           }}
         />
 
@@ -159,8 +167,8 @@ export default function UploadPhoto() {
               fullWidth
               onChange={handleChange}
               value={form.title}
-              InputProps={{ sx: { bgcolor: '#111a24', color: 'white' } }}
-              InputLabelProps={{ sx: { color: '#88a' } }}
+              InputProps={{ sx: { bgcolor: "#111a24", color: "white" } }}
+              InputLabelProps={{ sx: { color: "#88a" } }}
             />
             <TextField
               name="location"
@@ -169,26 +177,31 @@ export default function UploadPhoto() {
               fullWidth
               onChange={handleChange}
               value={form.location}
-              InputProps={{ sx: { bgcolor: '#111a24', color: 'white' } }}
-              InputLabelProps={{ sx: { color: '#88a' } }}
+              InputProps={{ sx: { bgcolor: "#111a24", color: "white" } }}
+              InputLabelProps={{ sx: { color: "#88a" } }}
             />
-           
+
             <Stack direction="row" alignItems="center" spacing={1}>
               <IconButton
                 component="label"
                 sx={{
-                  bgcolor: '#00eaff',
-                  color: '#001b1f',
-                  '&:hover': {
-                    bgcolor: '#00c8e0',
-                    boxShadow: '0 0 10px rgba(0,255,255,0.3)',
+                  bgcolor: "#00eaff",
+                  color: "#001b1f",
+                  "&:hover": {
+                    bgcolor: "#00c8e0",
+                    boxShadow: "0 0 10px rgba(0,255,255,0.3)",
                   },
                 }}
               >
                 <UploadFileIcon />
-                <input hidden accept="image/*" type="file" onChange={handleImageUpload} />
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={handleImageUpload}
+                />
               </IconButton>
-              <Typography variant="body2" sx={{ color: '#bbb' }}>
+              <Typography variant="body2" sx={{ color: "#bbb" }}>
                 Choose an image file
               </Typography>
             </Stack>
@@ -199,13 +212,13 @@ export default function UploadPhoto() {
               fullWidth
               sx={{
                 mt: 1,
-                bgcolor: '#00eaff',
-                color: '#001b1f',
-                fontWeight: 'bold',
-                textTransform: 'uppercase',
-                '&:hover': {
-                  boxShadow: '0 0 24px rgba(0,255,255,0.4)',
-                  bgcolor: '#00eaff',
+                bgcolor: "#00eaff",
+                color: "#001b1f",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                "&:hover": {
+                  boxShadow: "0 0 24px rgba(0,255,255,0.4)",
+                  bgcolor: "#00eaff",
                 },
               }}
             >
