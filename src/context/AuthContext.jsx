@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
 // context/AuthContext.js
 const login = async (email, password) => {
   try {
+    const API_URL = 'https://thailand-project2025-backend.vercel.app';
     const res = await axios.post(`${API_URL}/auth/login/${email}/${password}`);
     
     if (res.status === 200) {
