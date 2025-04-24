@@ -25,7 +25,8 @@ function App() {
         <Route path="/explore" element={<Explore />} />
         <Route path="/my-gallery" element={<RequireAuth><MyGallery /></RequireAuth>} />
         <Route path="/photo/:id" element={<PhotoDetail />} />
-        <Route path="/edit/:id" element={<RequireAuth><EditPhoto /></RequireAuth>} />
+        <Route path="/edit/:travelId" element={<RequireAuth><EditPhoto /></RequireAuth>} />
+
 
       </Routes>
       </AuthProvider>
