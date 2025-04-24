@@ -32,6 +32,7 @@ export default function Register() {
     userImage: '',
   });
   const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -47,13 +48,35 @@ export default function Register() {
     }
   };
 
+  const validateForm = () => {
+    const { username, email, password, confirmPassword, userImage } = form;
+    if (!username || !email || !password || !confirmPassword) {
+      alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      alert('อีเมลไม่ถูกต้อง');
+      return false;
+    }
+    if (password.length < 6) {
+      alert('รหัสผ่านควรมีอย่างน้อย 6 ตัวอักษร');
+      return false;
+    }
+    if (password !== confirmPassword) {
+      alert('รหัสผ่านไม่ตรงกัน');
+      return false;
+    }
+    if (!userImage) {
+      alert('กรุณาอัปโหลดรูปภาพโปรไฟล์');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
+    if (!validateForm()) return;
 
     const formData = new FormData();
     formData.append('userName', form.username);
@@ -62,18 +85,20 @@ export default function Register() {
     formData.append('userImage', form.userImage);
 
     try {
-      await axios.post(
+      setLoading(true);
+      const res = await axios.post(
         'https://thailand-project2025-backend.vercel.app/auth/register',
         formData
       );
-      alert('Register successful!');
+      alert('✅ Register successful!');
       navigate('/login');
     } catch (err) {
       console.error('❌ Register Error:', err);
       alert(err.response?.data?.message || 'Registration failed');
+    } finally {
+      setLoading(false);
     }
   };
-
   return (
     <Box
       sx={{
@@ -167,6 +192,7 @@ export default function Register() {
 
             <Button
               type="submit"
+              disabled={loading}
               fullWidth
               variant="contained"
               sx={{
