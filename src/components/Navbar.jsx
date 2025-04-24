@@ -102,7 +102,7 @@ export default function Navbar() {
 
           {user ? (
             <>
-              <Typography color="#e0f7fa" sx={{ mt: 1 }}>Hi, {user.username}</Typography>
+              <Typography color="#e0f7fa" sx={{ mt: 1 }}>Hi, {user?.userName}</Typography>
               <Button
                 onClick={logout}
                 variant="outlined"

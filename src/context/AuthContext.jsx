@@ -1,20 +1,24 @@
+// context/AuthContext.jsx
 import { createContext, useContext, useState } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext();
-
-const mockUsers = [
-  { username: 'admin', group: 1 },
-  { username: 'guest', group: 2 },
-];
+const BASE_URL = 'https://thailand-project2025-backend.vercel.app';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  const login = (username) => {
-    const found = mockUsers.find((u) => u.username === username);
-    if (found) setUser(found);
-    else alert('User not found');
+  const login = async (email, password) => {
+    try {
+      const res = await axios.post(`${BASE_URL}/auth/login`, { userEmail: email, userPassword: password });
+      setUser(res.data.user);
+      return true; // สำเร็จ
+    } catch (err) {
+      alert(err.response?.data?.message || 'Login failed');
+      return false; // ล้มเหลว
+    }
   };
+  
 
   const logout = () => setUser(null);
 
