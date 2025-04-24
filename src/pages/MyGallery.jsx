@@ -20,7 +20,7 @@ const fadeGlow = keyframes`
 `;
 
 export default function MyGallery() {
-  const { user, isLoadingUser } = useAuth();
+  const { user } = useAuth();
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -46,13 +46,6 @@ export default function MyGallery() {
     }
   }, [user]);
 
-  if (isLoadingUser) {
-    return null; 
-  }
-  
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
 
   if (loading) {
     return (
