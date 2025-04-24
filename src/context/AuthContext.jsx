@@ -1,4 +1,3 @@
-// context/AuthContext.jsx
 import { createContext, useContext, useState } from 'react';
 import axios from 'axios';
 
@@ -12,18 +11,18 @@ export function AuthProvider({ children }) {
     try {
       const res = await axios.post(`${BASE_URL}/auth/login`, {
         email,
-        password
+        password,
       });
 
-      if (res.status === 200 && res.data.user) {
+      if (res.status === 200) {
         setUser(res.data.user);
         return { status: 200 };
       } else {
         return { status: res.status };
       }
     } catch (err) {
-      console.error("Login Error:", err);
-      return { status: 500 };
+      console.error('Login Error:', err.response?.data || err.message);
+      return { status: err.response?.status || 500 };
     }
   };
 

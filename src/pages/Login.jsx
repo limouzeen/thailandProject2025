@@ -42,7 +42,6 @@ export default function Login() {
   
     try {
       const response = await login(form.email, form.password);
-  
       if (response.status === 200) {
         navigate('/my-gallery');
       } else if (response.status === 404) {
@@ -55,6 +54,7 @@ export default function Login() {
       console.error('Login Error:', err);
     }
   };
+  
   
 
   return (
