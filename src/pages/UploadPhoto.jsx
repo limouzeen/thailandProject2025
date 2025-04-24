@@ -200,7 +200,7 @@ const starGlow = keyframes`
 `;
 
 export default function UploadPhoto() {
-  const [form, setForm] = useState({ title: '', location: '', image: null });
+  const [form, setForm] = useState({ title: '', location: '', place: '', image: null });
   const [preview, setPreview] = useState(pic);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -228,8 +228,9 @@ export default function UploadPhoto() {
     const formData = new FormData();
     formData.append("travelTitle", form.title);
     formData.append("travelLocation", form.location);
-    formData.append("userId", user.userId); // ดึง userId มาจาก context
-    formData.append("travelImage", form.image); // ต้องตรงกับ multer field name
+    formData.append("travelPlace", form.place);
+    formData.append("userId", user.userId);
+    formData.append("travelImage", form.image);
 
     try {
       await axios.post("https://thailand-project2025-backend.vercel.app/travels", formData, {
@@ -322,6 +323,16 @@ export default function UploadPhoto() {
               fullWidth
               onChange={handleChange}
               value={form.location}
+              InputProps={{ sx: { bgcolor: '#111a24', color: 'white' } }}
+              InputLabelProps={{ sx: { color: '#88a' } }}
+            />
+            <TextField
+              name="place"
+              label="Place"
+              variant="filled"
+              fullWidth
+              onChange={handleChange}
+              value={form.place}
               InputProps={{ sx: { bgcolor: '#111a24', color: 'white' } }}
               InputLabelProps={{ sx: { color: '#88a' } }}
             />
