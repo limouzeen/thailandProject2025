@@ -91,10 +91,12 @@ export default function Register() {
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data', // บังคับให้ axios ใช้แบบ multipart
+            // ✅ ต้องกำหนดแบบนี้ตอนส่งไฟล์
+            'Content-Type': 'multipart/form-data',
           },
+          withCredentials: true, // ✅ เพื่อให้ cookie/token ทำงานในอนาคต
         }
-      );  
+      ); 
       alert('✅ Register successful!');
       navigate('/login');
     } catch (err) {
