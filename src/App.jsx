@@ -24,7 +24,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/my-gallery" element={<RequireAuth><MyGallery /></RequireAuth>} />
-        <Route path="/photo/:id" element={<PhotoDetail />} />
+        <Route path="/photo/:travelId" element={<PhotoDetail />} />
         <Route path="/edit/:travelId" element={<RequireAuth><EditPhoto /></RequireAuth>} />
 
 
