@@ -8,16 +8,23 @@ const BASE_URL = 'https://thailand-project2025-backend.vercel.app';
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  const login = async (email, password) => {
-    try {
-      const res = await axios.post(`${BASE_URL}/auth/login`, { userEmail: email, userPassword: password });
-      setUser(res.data.user);
-      return true; // สำเร็จ
-    } catch (err) {
-      alert(err.response?.data?.message || 'Login failed');
-      return false; // ล้มเหลว
+// context/AuthContext.js
+const login = async (email, password) => {
+  try {
+    const res = await axios.post(`${API_URL}/auth/login/${email}/${password}`);
+    
+    if (res.status === 200) {
+      setUser(res.data.user); 
+      return { status: 200 }; 
+    } else {
+      return { status: res.status };
     }
-  };
+  } catch (err) {
+    console.error("Login Error:", err);
+    return { status: 500 }; 
+  }
+};
+
   
 
   const logout = () => setUser(null);
