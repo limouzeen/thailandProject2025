@@ -146,16 +146,7 @@ export default function UploadPhoto() {
               InputProps={{ sx: { bgcolor: '#111a24', color: 'white' } }}
               InputLabelProps={{ sx: { color: '#88a' } }}
             />
-            <TextField
-              name="location"
-              label="Location"
-              variant="filled"
-              fullWidth
-              onChange={handleChange}
-              value={form.location}
-              InputProps={{ sx: { bgcolor: '#111a24', color: 'white' } }}
-              InputLabelProps={{ sx: { color: '#88a' } }}
-            />
+           
             <Stack direction="row" alignItems="center" spacing={1}>
               <IconButton
                 component="label"
