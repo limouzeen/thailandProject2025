@@ -31,10 +31,30 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = await login(form.email, form.password);
-    if (success) {
-      navigate('/explore');
+
+    if (form.email.length == 0) {
+      alert('ป้อนชื่อผู้ใช้ (อีเมล์) ด้วย !!!')
+      return;
+    } else if (form.password.length == 0) {
+      alert('ป้อนรหัสผ่าน ด้วย !!!')
+      return;
     }
+
+    try {const response = await login(form.email, form.password);
+      if (response.status == 200) {
+
+        navigate('/explore');
+      } else if (response.status == 404) {
+        alert('ชื่อผู้ใช้รหัสผ่าน ไม่ถูกต้อง')
+      } else {
+        alert('Login ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง')
+      }
+    } catch (err) {
+      alert('พบข้อผิดพลาดในการทำงาน: ', err)
+      console.log(` Error: ${err}`);
+    }
+
+    
   };
   
 
