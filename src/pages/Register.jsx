@@ -92,6 +92,8 @@ export default function Register() {
             'Content-Type': 'multipart/form-data'
           }
         })
+        console.log(formData.get("userImage"));
+
       alert('✅ Register successful!');
       navigate('/login');
     } catch (err) {
