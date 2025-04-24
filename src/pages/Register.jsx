@@ -86,10 +86,15 @@ export default function Register() {
 
     try {
       setLoading(true);
-      const res = await axios.post(
+      await axios.post(
         'https://thailand-project2025-backend.vercel.app/auth/register',
-        formData
-      );
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data', // บังคับให้ axios ใช้แบบ multipart
+          },
+        }
+      );  
       alert('✅ Register successful!');
       navigate('/login');
     } catch (err) {
