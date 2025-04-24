@@ -33,38 +33,54 @@ export default function UploadPhoto() {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      const maxSizeMB = 10;
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        alert(`ขนาดไฟล์เกิน ${maxSizeMB}MB กรุณาเลือกไฟล์ที่เล็กกว่า`);
+        return;
+      }
       const imageURL = URL.createObjectURL(file);
       setForm({ ...form, image: file });
       setPreview(imageURL);
     }
   };
-
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
-      alert("Please log in first.");
+      alert("กรุณาเข้าสู่ระบบก่อนอัปโหลด");
       return;
     }
-
+  
+    if (!form.title || !form.location || !form.image) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วนและเลือกไฟล์รูปภาพ");
+      return;
+    }
+  
     const formData = new FormData();
-    formData.append("travelPlace", form.title); 
+    formData.append("travelPlace", form.title);
     formData.append("travelLocation", form.location);
     formData.append("userId", user.userId);
     formData.append("travelImage", form.image);
-
+  
     try {
       await axios.post("https://thailand-project2025-backend.vercel.app/travels", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
       });
-      alert("Upload success!");
+      alert("อัปโหลดสำเร็จ!");
       navigate("/my-gallery");
     } catch (err) {
-      console.error("❌ Upload error:", err);
-      alert("Upload failed");
+      if (err.response?.status === 413) {
+        alert("ขนาดไฟล์ใหญ่เกินไป กรุณาเลือกไฟล์ที่เล็กกว่า 10MB");
+      } else {
+        console.error("❌ Upload error:", err);
+        alert("การอัปโหลดล้มเหลว");
+      }
     }
   };
+  
 
   return (
     <Box
