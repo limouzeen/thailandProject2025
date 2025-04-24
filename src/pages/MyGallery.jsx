@@ -29,7 +29,9 @@ export default function MyGallery() {
         const myPhotos = res.data.filter(photo => photo.userId === user?.userId);
         setPhotos(myPhotos);
       } catch (err) {
-        console.error('❌ Failed to fetch photos:', err);
+        setError('Failed to fetch travels.');
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -38,18 +40,22 @@ export default function MyGallery() {
     }
   }, [user]);
 
+  if (loading) {
+    return (
+      <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#010a14' }}>
+        <CircularProgress color="info" />
+      </Box>
+    );
+  }
 
-  const fetchMyPhotos = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/travels`);
-      const myPhotos = res.data.filter(photo => photo.userId === user?.userId);
-      setPhotos(myPhotos);
-    } catch (err) {
-      setError('Failed to fetch your photos.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (error) {
+    return (
+      <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e57373', bgcolor: '#010a14' }}>
+        <Typography>{error}</Typography>
+      </Box>
+    );
+  }
+
   
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this photo?')) {
@@ -108,13 +114,7 @@ export default function MyGallery() {
 
 
 
-      {loading ? (
-  <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
-    <CircularProgress color="info" />
-  </Box>
-) : error ? (
-  <Typography sx={{ color: 'red', mt: 4 }}>{error}</Typography>
-) : (
+ 
 <Grid container spacing={4} justifyContent="center">
   {photos.map((photo) => (
     <Grid item xs={12} sm={6} md={4} key={photo.travelId} sx={{ display: 'flex' }}>
@@ -200,7 +200,7 @@ export default function MyGallery() {
       </Card>
     </Grid>
   ))}
-</Grid>)}
+</Grid>
 
 
 
