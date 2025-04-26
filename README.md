@@ -110,6 +110,6 @@ Powered by **React + Node.js + Prisma + Cloudinary** for a seamless experience.
 
 ```bash
 git clone https://github.com/limouzeen/thailandProject2025.git
-cd thailand-project2025
+cd thailandProject2025
 
 
